@@ -89,7 +89,7 @@ client.on('message', message => {
     SEND_MESSAGES: false,
   })
   .then(() => {
-    const channMessage = `${toBan} has lost send permissions here and ${owner.username} has been notified.`;
+    const channMessage = `${toBan.username} has lost send message permissions - ${owner.username} has been notified.`;
     const bannedMessage = generateLolYouGotBanned(toBan, message.author, owner, banMessage);
     const ownerMessage = generateOwnerMessage(toBan, message.author, banMessage);
     genLog(message.author, toBan, banMessage, channMessage, bannedMessage, ownerMessage);
