@@ -64,7 +64,7 @@ client.on('message', message => {
   }
 
   if (!hasPermission(message.member)) {
-    return message.reply('You don\'t have permission to do that jackass');
+    return message.reply('You don\'t have permission to do that.');
   }
 
   if (message.mentions.users.size === 0) {
