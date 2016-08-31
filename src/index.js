@@ -68,7 +68,7 @@ client.on('message', message => {
   }
 
   if (!hasPermission(message.member)) {
-    return message.reply('You don\'t have permission to do that...');
+    return;
   }
 
   const banMessage = message.content.split(' ').slice(2).join(' ') || 'unspecified reason';
