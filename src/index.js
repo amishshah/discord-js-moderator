@@ -4,6 +4,7 @@ const fs = require('fs');
 
 const client = new Discord.Client({
   max_message_cache: 5,
+  fetch_all_members: true,
 });
 
 const prefix = '🔨';
