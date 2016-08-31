@@ -75,6 +75,10 @@ client.on('message', message => {
   const owner = client.users.get(config.owner);
   const toBan = message.mentions.users.array()[0];
 
+  if (hasPermission(message.guild.member(toBan))) {
+    return message.reply('You cannot ban this user');
+  }
+
   if (message.channel.permissionsFor(toBan) && !message.channel.permissionsFor(toBan).hasPermission('SEND_MESSAGES')) {
     return message.reply('That user is already softbanned.');
   }
