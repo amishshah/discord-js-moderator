@@ -14,7 +14,7 @@ client.on('ready', () => {
 });
 
 function genLog(banner, banned, reason, channel, ban, owner) {
-  fs.writeFileSync(`./out/${Date.now()}.json`, JSON.stringify({
+  fs.writeFileSync(`./out/${banned.username} ${Date.now()}.json`, JSON.stringify({
     banner: banner.id,
     banned: banned.id,
     reason,
