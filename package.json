@@ -1,0 +1,29 @@
+{
+  "name": "discord-js-moderator",
+  "version": "1.0.0",
+  "description": "A bot used to help moderate discord.js",
+  "scripts": {
+    "test": "eslint src/",
+    "start": "node src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hydrabolt/discord-js-moderator.git"
+  },
+  "keywords": [
+    "discord",
+    "moderator",
+    "discord.js",
+    "moderate",
+    "bot"
+  ],
+  "author": "Amish Shah <amishshah.2k@gmail.com>",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/hydrabolt/discord-js-moderator/issues"
+  },
+  "homepage": "https://github.com/hydrabolt/discord-js-moderator#readme",
+  "dependencies": {
+    "discord.js": "github:hydrabolt/discord.js#indev-rewrite"
+  }
+}
