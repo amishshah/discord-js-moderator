@@ -63,12 +63,12 @@ client.on('message', message => {
     return;
   }
 
-  if (!hasPermission(message.member)) {
-    return message.reply('You don\'t have permission to do that.');
-  }
-
   if (message.mentions.users.size === 0) {
     return;
+  }
+
+  if (!hasPermission(message.member)) {
+    return message.reply('You don\'t have permission to do that.');
   }
 
   const banMessage = message.content.split(' ').slice(2).join(' ') || 'unspecified reason';
@@ -99,5 +99,7 @@ client.on('message', message => {
     message.reply(`Couldn't ban - ${e}`);
   });
 });
+
+client.on('error', process.exit);
 
 client.login(config.token);
