@@ -22,6 +22,7 @@ function genLog(banner, banned, reason, channel, ban, owner) {
       ban,
       owner,
     },
+    date: Date.now(),
   }));
 }
 
