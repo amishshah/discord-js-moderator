@@ -2,6 +2,9 @@ const Discord = require('discord.js');
 const config = require('./config.json');
 const banList = require('../out/banned.json');
 const fs = require('fs');
+const UpdateListener = require('./updater');
+
+const updateListener = new UpdateListener();
 
 const client = new Discord.Client({
   max_message_cache: 5,
@@ -12,6 +15,12 @@ const prefix = '🔨';
 
 client.on('ready', () => {
   console.log('ready!');
+  const channel = client.channels.get(config.channel);
+  updateListener.on('push', () => {
+    channel.sendMessage('I am restarting...')
+      .then(process.exit)
+      .catch(process.exit);
+  });
 });
 
 function writeList() {
@@ -99,7 +108,10 @@ client.on('message', message => {
     return;
   }
 
-  const banMessage = message.content.split(' ').slice(2).join(' ') || 'unspecified reason';
+  const banMessage = message.content.split(' ').slice(2).join(' ');
+  if (!banMessage) {
+    return message.reply('you need to enter a reason for this soft ban');
+  }
   const owner = client.users.get(config.owner);
   const toBan = message.mentions.users.array()[0];
 

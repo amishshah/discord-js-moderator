@@ -24,6 +24,7 @@
   },
   "homepage": "https://github.com/hydrabolt/discord-js-moderator#readme",
   "dependencies": {
-    "discord.js": "github:hydrabolt/discord.js#indev-rewrite"
+    "discord.js": "github:hydrabolt/discord.js#indev-rewrite",
+    "github-webhook-handler": "^0.6.0"
   }
 }
