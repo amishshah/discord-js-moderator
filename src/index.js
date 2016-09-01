@@ -3,7 +3,20 @@ const config = require('./config.json');
 const banList = require('../out/banned.json');
 const fs = require('fs');
 const UpdateListener = require('./updater');
-const child_process = require('child_process');
+
+const triggers = [];
+for (const trigger of config.triggers) {
+  triggers.push(new RegExp(trigger, 'g'));
+}
+
+function doesTrigger(str) {
+  for (const trigger of triggers) {
+    if (str.match(trigger)) {
+      return true;
+    }
+  }
+  return false;
+}
 
 const updateListener = new UpdateListener();
 
@@ -163,6 +176,11 @@ client.on('message', message => {
     message.channel.sendMessage(channMessage);
     toBan.sendMessage(bannedMessage);
     owner.sendMessage(ownerMessage);
+    if (doesTrigger(banMessage)) {
+      const role = message.guild.roles.get(config.mentionRole);
+      const modMention = `${role} there may be reason to ban ${toBan} from this server:\n${banMessage}`;
+      message.channel.sendMessage(modMention);
+    }
   })
   .catch(e => {
     message.reply(`Couldn't ban - ${e}`);
