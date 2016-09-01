@@ -169,7 +169,8 @@ client.on('message', message => {
   });
 });
 
-client.on('error', () => {
+client.on('error', e => {
+  fs.writeFileSync(`./out/error ${Date.now()}.log`, e);
   updateListener.server.close();
   process.exit();
 });
