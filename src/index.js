@@ -15,7 +15,7 @@ client.on('ready', () => {
 });
 
 function writeList() {
-  fs.writeFileSync('../out/banned.json', JSON.stringify(banList));
+  fs.writeFileSync('./out/banned.json', JSON.stringify(banList));
 }
 
 function genLog(banner, banned, reason, channel, ban, owner) {
