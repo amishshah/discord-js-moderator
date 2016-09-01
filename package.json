@@ -5,7 +5,7 @@
   "scripts": {
     "test": "eslint src/",
     "start": "npm run update && node src/index.js",
-    "update": "git pull && npm run update"
+    "update": "git pull && npm install"
   },
   "repository": {
     "type": "git",
