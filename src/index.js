@@ -15,6 +15,7 @@ client.on('ready', () => {
 });
 
 function writeList() {
+  console.log(banList);
   fs.writeFileSync('./out/banned.json', JSON.stringify(banList));
 }
 
@@ -66,15 +67,27 @@ function generateOwnerMessage(toBan, banner, reason) {
 }
 
 client.on('guildMemberAdd', (guild, member) => {
+  console.log(member.id);
   if (banList.banned.includes(member.id)) {
     guild.channels.get(config.channel).overwritePermissions(member, {
       SEND_MESSAGES: false,
-    });
+    }).catch(console.log);
   }
 });
 
 client.on('message', message => {
-  if (message.channel.id !== config.channel || !message.content.startsWith(prefix)) {
+  if (message.channel.id !== config.channel) {
+    return;
+  }
+
+  if (banList.banned.includes(message.author.id)) {
+    message.delete();
+    return message.channel.overwritePermissions(message.author, {
+      SEND_MESSAGES: false,
+    });
+  }
+
+  if (!message.content.startsWith(prefix)) {
     return;
   }
 
@@ -84,13 +97,6 @@ client.on('message', message => {
 
   if (!hasPermission(message.member)) {
     return;
-  }
-
-  if (banList.banned.includes(message.author.id)) {
-    message.delete();
-    message.channel.overwritePermissions(message.author, {
-      SEND_MESSAGES: false,
-    });
   }
 
   const banMessage = message.content.split(' ').slice(2).join(' ') || 'unspecified reason';
