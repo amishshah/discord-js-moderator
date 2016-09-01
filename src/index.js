@@ -16,8 +16,9 @@ const prefix = '🔨';
 client.on('ready', () => {
   console.log('ready!');
   const channel = client.channels.get(config.channel);
+  channel.sendMessage('I am online!');
   updateListener.on('push', () => {
-    channel.sendMessage('I am restarting...')
+    channel.sendMessage('I am going to be temporarily unavailable - I am updating.')
       .then(process.exit)
       .catch(process.exit);
   });
