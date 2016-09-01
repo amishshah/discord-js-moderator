@@ -18,6 +18,7 @@ client.on('ready', () => {
   const channel = client.channels.get(config.channel);
   channel.sendMessage('I\'m online');
   updateListener.on('push', () => {
+    updateListener.server.close();
     channel.sendMessage('I am going to be temporarily unavailable - I am updating.')
       .then(process.exit)
       .catch(process.exit);
@@ -143,6 +144,9 @@ client.on('message', message => {
   });
 });
 
-client.on('error', process.exit);
+client.on('error', () => {
+  updateListener.server.close();
+  process.exit();
+});
 
 client.login(config.token);
