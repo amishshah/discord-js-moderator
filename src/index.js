@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
 const config = require('./config.json');
+const banList = require('../out/banned.json');
 const fs = require('fs');
 
 const client = new Discord.Client({
@@ -12,6 +13,10 @@ const prefix = '🔨';
 client.on('ready', () => {
   console.log('ready!');
 });
+
+function writeList() {
+  fs.writeFileSync('../out/banned.json', JSON.stringify(banList));
+}
 
 function genLog(banner, banned, reason, channel, ban, owner) {
   fs.writeFileSync(`./out/${banned.username} ${Date.now()}.json`, JSON.stringify({
@@ -60,6 +65,14 @@ function generateOwnerMessage(toBan, banner, reason) {
   ].join('\n');
 }
 
+client.on('guildMemberAdd', (guild, member) => {
+  if (banList.banned.includes(member.id)) {
+    guild.channels.get(config.channel).overwritePermissions(member, {
+      SEND_MESSAGES: false,
+    });
+  }
+});
+
 client.on('message', message => {
   if (message.channel.id !== config.channel || !message.content.startsWith(prefix)) {
     return;
@@ -71,6 +84,13 @@ client.on('message', message => {
 
   if (!hasPermission(message.member)) {
     return;
+  }
+
+  if (banList.banned.includes(message.author.id)) {
+    message.delete();
+    message.channel.overwritePermissions(message.author, {
+      SEND_MESSAGES: false,
+    });
   }
 
   const banMessage = message.content.split(' ').slice(2).join(' ') || 'unspecified reason';
@@ -89,6 +109,8 @@ client.on('message', message => {
     SEND_MESSAGES: false,
   })
   .then(() => {
+    banList.banned.push(toBan.id);
+    writeList();
     const channMessage = `${toBan.username} has lost send message permissions - ${owner.username} has been notified.`;
     const bannedMessage = generateLolYouGotBanned(toBan, message.author, owner, banMessage);
     const ownerMessage = generateOwnerMessage(toBan, message.author, banMessage);
