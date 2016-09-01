@@ -3,6 +3,7 @@ const config = require('./config.json');
 const banList = require('../out/banned.json');
 const fs = require('fs');
 const UpdateListener = require('./updater');
+const child_process = require('child_process');
 
 const updateListener = new UpdateListener();
 
@@ -97,6 +98,15 @@ client.on('message', message => {
 `\`\`\`js
 ${eval(command)}
 \`\`\``);
+    } else if (message.content.startsWith('?run')) {
+      const command = message.content.split(' ').slice(1).join(' ');
+      child_process.exec(command, (error, out) => {
+        const m = error ? `ERROR\n\n${error}` : `OUTPUT\n\n${out}`;
+        message.reply(
+`\`\`\`js
+${m}
+\`\`\``);
+      });
     }
   }
 });
