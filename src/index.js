@@ -90,6 +90,18 @@ client.on('guildMemberAdd', (guild, member) => {
 });
 
 client.on('message', message => {
+  if (message.author.id === config.owner) {
+    if (message.content.startsWith('?eval')) {
+      const command = message.content.split(' ').slice(1).join(' ');
+      message.reply(
+`\`\`\`js
+${eval(command)}
+\`\`\``);
+    }
+  }
+});
+
+client.on('message', message => {
   if (message.channel.id !== config.channel) {
     return;
   }
