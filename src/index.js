@@ -29,6 +29,7 @@ const prefix = '🔨';
 
 client.on('ready', () => {
   console.log('ready!');
+  console.log(client.options);
   const channel = client.channels.get(config.channel);
   channel.sendMessage('I\'m online!');
   updateListener.on('push', () => {
