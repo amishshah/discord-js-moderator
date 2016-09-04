@@ -66,7 +66,7 @@ function hasPermission(member) {
   if (member.id === client.user.id) {
     return true;
   }
-  for (const role of member.roles) {
+  for (const role of member.roles.values()) {
     if (config.roles.includes(role.name.toLowerCase())) {
       return true;
     }
